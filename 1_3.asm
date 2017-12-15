@@ -63,8 +63,12 @@ main:
    	
    	.endif0:
     mov		rax, rbx
+    mul 	rax
     cmp		rax, [number]
     jle		.loop0
+
+    print_lld [mult]
+   	print_char 32
 
    	print_char 10
     pop     rbp
