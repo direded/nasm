@@ -11,7 +11,7 @@ multiplier_format:     db "%lld * ", 0
 last_multiplier_format:     db "%lld", 10, 0
 arr:            times 64 dq 0
 arr_length:     dq 0
-probe:			dq 2
+probe:          dq 2
 
 ; -------------------------------
 section .bss
@@ -36,41 +36,41 @@ main:
         call    scanf
 
 ; --- implementation ---
-	mov 	rax, [number]
-	mov		[mult], rax
+    mov     rax, [number]
+    mov     [mult], rax
 
 .loop0:
-	mov		rax, [mult]
-    mov 	rbx, [probe]
-    xor 	rdx, rdx
-    div		qword rbx
+    mov     rax, [mult]
+    mov     rbx, [probe]
+    xor     rdx, rdx
+    div     qword rbx
 
-    cmp		rdx, 0
-    je		.is_multiplier
-    jne		.is_not_multiplier
-   	
-   	.is_not_multiplier
-    inc		rbx
-    mov		[probe], rbx
-   	jmp		.endif0
+    cmp     rdx, 0
+    je      .is_multiplier
+    jne     .is_not_multiplier
+    
+    .is_not_multiplier
+    inc     rbx
+    mov     [probe], rbx
+    jmp     .endif0
     
     .is_multiplier:
     print_lld [probe]
-   	print_char 32
-   	mov 	[mult], rax
+    print_char 32
+    mov     [mult], rax
 
-   	jmp		.endif0
-   	
-   	.endif0:
-    mov		rax, rbx
-    mul 	rax
-    cmp		rax, [number]
-    jle		.loop0
+    jmp     .endif0
+    
+    .endif0:
+    mov     rax, rbx
+    mul     rax
+    cmp     rax, [number]
+    jle     .loop0
 
     print_lld [mult]
-   	print_char 32
+    print_char 32
 
-   	print_char 10
+    print_char 10
     pop     rbp
     xor     rax, rax
     ret
