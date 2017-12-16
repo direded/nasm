@@ -49,7 +49,7 @@ main:
     je      .is_multiplier
     jne     .is_not_multiplier
     
-    .is_not_multiplier
+    .is_not_multiplier:
     inc     rbx
     mov     [probe], rbx
     jmp     .endif0
@@ -67,8 +67,11 @@ main:
     cmp     rax, [number]
     jle     .loop0
 
-    print_lld [mult]
-    print_char 32
+    mov		rax, [mult]
+    cmp		rax, 1
+    je		.one
+    print_lld rax
+    .one:
 
     print_char 10
     pop     rbp
