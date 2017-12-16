@@ -29,29 +29,25 @@ global main
 
 qsort:
     cmp     rsi, rdi
-    jl      .continue_rec 
+    jl      .continue_rec
         ret
     .continue_rec:
     mov     rax, rdi ; rax is pivot
-    mov     rbx, rdx ; rbx is iterator2
+    mov     rbx, rsi ; rbx is iterator2
 
-    mov     rcx, rdx ; rcx is iterator1
+    mov     rcx, rsi ; rcx is iterator1
 
     .loop:
-        cmp     rcx, rax  ; if iterator1 is privot
-        je      .continue_loop
-
         cmp     rcx, rdi ; if iterator1 g then right bound
         jg      .end_loop
+
+        cmp     rcx, rax  ; if iterator1 is pivot
+        je      .continue_loop
         
         push    rsi
         push    rdi
         mov     rdi, [rcx]
         mov     rsi, [rax]
-        print_lld   rdi
-        print_char  32
-        print_lld   rsi
-        print_char  10
         cmp     rdi, rsi ; if *iterator1 ... *pivot
         jge     .do_not_replace
             mov     rsi, [rbx]
@@ -77,8 +73,14 @@ qsort:
     pop     rsi
     pop     rdi
     
-    print_array    output_format, arr, [arr_length]
-    print_char  10
+    ; print_lld       rdx
+    ; print_char      32
+    ; print_lld       rsi
+    ; print_char      32
+    ; print_lld       rdi
+    ; print_char  10
+    ; print_array     output_format, arr, [arr_length]
+    ; print_char  10
 
     push    rsi
     push    rdi
@@ -130,6 +132,10 @@ main:
     loop    .loop
     sub     rdi, 8
     call    qsort
+
+    print_char  10
+    print_array     output_format, arr, [arr_length]
+    print_char  10
 
 ; --- end ---
     pop     rbp
