@@ -11,17 +11,16 @@ void quicksort(int* a, int l, int r) { /* a[l..r] */
 		return;
 	int q = r;
 	int x = a[q];
-	int i = l - 1;
+	int i = l;
 	for (int j = l; j <= r; j++) {
 		if (j == q)
 			continue;
 		if (a[j] < x) {
-			i++;
 			swap(&a[i], &a[j]); 
+			i++;
 		}
 	}
-	i++;
-	swap(&a[i], &a[r]);
+	swap(&a[i], &a[q]);
 	quicksort(a, l, i - 1);
 	quicksort(a, i + 1, r);
 }
