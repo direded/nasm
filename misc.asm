@@ -5,35 +5,72 @@ section .data
 
 section .text
 
-%macro print_symbol 2
+%macro io_symbol 3
     push    rax
     push    rbx
     push    rcx
     push    rdx
     push    rsi
     push    rdi
-        push    %1
-        push    %2
-        pop     rsi
-        pop     rdi
+        mov     rsi, %2
+        mov     rdi, %1
         xor     rax, rax
         xor     rbx, rbx
         xor     rcx, rcx
         xor     rdx, rdx
-            call    printf
+            call    %3
     pop     rdi
     pop     rsi
     pop     rdx
     pop     rcx
     pop     rbx
     pop     rax
+%endmacro
 
+%macro io_lld 2
+    io_symbol lld_format, %1, %2
+%endmacro
+
+%macro io_char 2
+    io_symbol c_format, %1, %2
+%endmacro
+
+%macro print_array 3
+    push    rax
+    push    rcx
+    mov     rax, %2
+    mov     rcx, %3
+
+    %%loop:
+        io_symbol   %1, [rax], printf
+        add     rax, 8
+    loop %%loop
+    pop     rcx
+    pop     rax
+%endmacro
+
+%macro scan_array 3
+    push    rax
+    push    rcx
+    mov     rax, %2
+    mov     rcx, %3
+
+    %%loop:
+        io_symbol   %1, rax, scanf
+        add     rax, 8
+    loop %%loop
+    pop     rcx
+    pop     rax
+%endmacro
+    
+%macro print_symbol 2
+    io_symbol %1, %2, printf
 %endmacro
 
 %macro print_lld 1
-    print_symbol lld_format, %1
+    io_symbol lld_format, %1, printf
 %endmacro
 
 %macro print_char 1
-    print_symbol c_format, %1
+    io_symbol c_format, %1, printf
 %endmacro
