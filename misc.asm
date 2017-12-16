@@ -1,6 +1,6 @@
 section .data
-	lld_format		db "%lld", 0
-	c_format		db "%c", 0
+    lld_format      db "%lld", 0
+    c_format        db "%c", 0
 
 
 section .text
@@ -12,10 +12,15 @@ section .text
     push    rdx
     push    rsi
     push    rdi
-    mov     rdi, %1
-    mov     rsi, %2
-    xor     rax, rax
-        call    printf
+        push    %1
+        push    %2
+        pop     rsi
+        pop     rdi
+        xor     rax, rax
+        xor     rbx, rbx
+        xor     rcx, rcx
+        xor     rdx, rdx
+            call    printf
     pop     rdi
     pop     rsi
     pop     rdx
