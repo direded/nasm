@@ -1,6 +1,7 @@
 section .data
     lld_format      db "%lld", 0
     c_format        db "%c", 0
+    double_format   db "%.15f", 0
 
 
 section .text
@@ -73,4 +74,24 @@ section .text
 
 %macro print_char 1
     io_symbol c_format, %1, printf
+%endmacro
+
+%macro print_double 1
+    
+    push    rax
+    push    rbx
+    push    rcx
+    push    rdx
+    push    rsi
+    push    rdi
+        mov    rdi, double_format
+        mov    rax, 1
+        movq    xmm0, %1
+            call    printf
+    pop     rdi
+    pop     rsi
+    pop     rdx
+    pop     rcx
+    pop     rbx
+    pop     rax
 %endmacro
