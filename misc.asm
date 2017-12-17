@@ -4,6 +4,7 @@ section .data
     double_format   db "%.15f", 0
 
 
+
 section .text
 
 %macro io_symbol 3
@@ -64,6 +65,28 @@ section .text
     pop     rax
 %endmacro
     
+%macro print_text 1
+    push    rax
+    push    rbx
+    push    rcx
+    push    rdx
+    push    rsi
+    push    rdi
+        xor     rax, rax
+        xor     rbx, rbx
+        xor     rcx, rcx
+        xor     rdx, rdx
+        xor     rsi, rsi
+        mov    rdi, %1
+            call    printf
+    pop     rdi
+    pop     rsi
+    pop     rdx
+    pop     rcx
+    pop     rbx
+    pop     rax
+%endmacro
+
 %macro print_symbol 2
     io_symbol %1, %2, printf
 %endmacro
@@ -77,17 +100,24 @@ section .text
 %endmacro
 
 %macro print_double 1
-    
     push    rax
     push    rbx
     push    rcx
     push    rdx
     push    rsi
     push    rdi
+    ; push    xmm0
+
+        xor     rsi, rsi
+        xor     rbx, rbx
+        xor     rcx, rcx
+        xor     rdx, rdx
         mov    rdi, double_format
         mov    rax, 1
         movq    xmm0, %1
             call    printf
+
+    ; pop     xmm0
     pop     rdi
     pop     rsi
     pop     rdx
