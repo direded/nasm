@@ -72,15 +72,6 @@ qsort:
         mov     [rbx], rdi
     pop     rsi
     pop     rdi
-    
-    ; print_lld       rdx
-    ; print_char      32
-    ; print_lld       rsi
-    ; print_char      32
-    ; print_lld       rdi
-    ; print_char  10
-    ; print_array     output_format, arr, [arr_length]
-    ; print_char  10
 
     push    rsi
     push    rdi
